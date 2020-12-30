@@ -21,14 +21,14 @@ export class AuthenticateService {
     role: this.getRole(),
     account: this.getAccount()
   });
-  
+
   public authInfo = this.authInfoSubject.pipe(distinctUntilChanged());
   public isLoggedIn = this.loggedIn.asObservable().pipe(distinctUntilChanged());
   helper = new JwtHelperService();
   constructor(private router: Router,private http: HttpClient,private _host:HostService,private socialAccountService: SocialaccountService) {
 
   }
-  readonly baseURL = this._host.host()+':3000';
+  readonly baseURL = this._host.host()+'';
   login(credentials): Observable<any> {
     return this.http.post(this.baseURL+'/users/login', credentials)
       .pipe(map(
@@ -120,7 +120,7 @@ export class AuthenticateService {
   }
   formatCurrency(number){
 		var n = number.split('').reverse().join("");
-		var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");    
+		var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");
 		return  n2.split('').reverse().join('') + 'VNĐ';
 	}
   isAuthenticated(): boolean {
@@ -138,7 +138,7 @@ export class AuthenticateService {
   getAccount(): string {
     return localStorage.getItem('accountSocial')
   }
- 
+
   isAdmin() {
     const role = localStorage.getItem('role');
     if (role) {

@@ -50,14 +50,14 @@ export class CustomerLayoutComponent implements OnInit {
   }
   changespinner = "chocolate";
   segments: any
-  segmentsList = [] 
+  segmentsList = []
   segmentIndex: {}
   ngOnInit() {
     $("#changewhell").css({'float':'right','width':'90px','background-color':this.changespinner});
     $("#color").css({'color':this.changespinner});
 
     this.getTotalCountAndPrice();
-    this.authService.authInfo.subscribe(val => { 
+    this.authService.authInfo.subscribe(val => {
       this.isLoggedIn = val.isLoggedIn;
       this.role = val.role;
       this.isCustomer = this.authService.isCustomer()
@@ -70,7 +70,7 @@ export class CustomerLayoutComponent implements OnInit {
       this.segments = res as []
       this.segments.forEach(element => {
         if(element.isActive) {
-          element.segments.forEach(element => { 
+          element.segments.forEach(element => {
             this.segmentIndex = { 'fillStyle': element.fillStyle, 'text':  element.text }
             this.segmentsList.push(this.segmentIndex)
           });
@@ -88,7 +88,7 @@ export class CustomerLayoutComponent implements OnInit {
       }
     )
   }
-  
+
   //get all category
   getallCategory(){
     this.bookCategoryService.getCategoryList().subscribe(res=>{
@@ -119,7 +119,7 @@ export class CustomerLayoutComponent implements OnInit {
 			this.lengthCartBook = CartBook.length;
 		}
 	}
-	//get total count and price 
+	//get total count and price
 	getTotalCountAndPrice() {
 		this.TongTien = 0;
 		this.TongCount = 0;
@@ -131,7 +131,7 @@ export class CustomerLayoutComponent implements OnInit {
 				this.TongCount += parseInt(this.CartBook[i].count);
 			}
     }
-    
+
 		$('#tongtien').html("&nbsp;" + this.formatCurrency(this.TongTien.toString()));
 		$('.cart_items').html(this.TongCount.toString());
 		localStorage.setItem("TongTien", this.TongTien.toString());
@@ -140,7 +140,7 @@ export class CustomerLayoutComponent implements OnInit {
 	  //#endregion
 	   formatCurrency(number){
 		var n = number.split('').reverse().join("");
-		var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");    
+		var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");
 		return  n2.split('').reverse().join('') + 'VNĐ';
 	}
   designWheel() {
@@ -167,7 +167,7 @@ export class CustomerLayoutComponent implements OnInit {
           'number': 32   //Số lượng chân. Chia đều xung quanh vòng quay.
         }
       });
-    
+
     var addPoint: any
 
     //Kiểm tra vòng quay
@@ -197,16 +197,16 @@ export class CustomerLayoutComponent implements OnInit {
     }
     statusButton(1);
     function minusPoint() {
-      //tăng point 
+      //tăng point
       $.ajax({
         type: "post",
-        url: 'http://localhost:3000/points/updatePointByUserID',
+        url: 'api/points/updatePointByUserID',
         data: {
           userID: (JSON.parse(localStorage.getItem('accountSocial')))._id,
           point: -80
         },
         success: function (response) {
-          $.get('http://localhost:3000/points/getPointByUserID/' + (JSON.parse(localStorage.getItem('accountSocial')))._id, function (data) {
+          $.get('api/points/getPointByUserID/' + (JSON.parse(localStorage.getItem('accountSocial')))._id, function (data) {
             $("#pointcur").html(data[0].point + " Điểm");
           });
         }
@@ -214,7 +214,7 @@ export class CustomerLayoutComponent implements OnInit {
     }
     //startSpin
     function startSpin() {
-      $.get('http://localhost:3000/points/getPointByUserID/' + (JSON.parse(localStorage.getItem('accountSocial')))._id, function (data) {
+      $.get('api/points/getPointByUserID/' + (JSON.parse(localStorage.getItem('accountSocial')))._id, function (data) {
         if (data[0].point >= 80) {
           // Ensure that spinning can't be clicked again while already running.
           if (wheelSpinning == false) {
@@ -242,17 +242,17 @@ export class CustomerLayoutComponent implements OnInit {
           var res = indicatedSegment.text.split(" điểm");
           var str = res[0].split("+");
           swal("Bạn Được Cộng Thêm " + str[1] + " Điểm Vào Tài Khoản");
-          // chạy dòng này oke thì ngon  
+          // chạy dòng này oke thì ngon
           addPoint = str[1];
           $.ajax({
             type: "post",
-            url: 'http://localhost:3000/points/updatePointByUserID',
+            url: 'api/points/updatePointByUserID',
             data: {
               userID: (JSON.parse(localStorage.getItem('accountSocial')))._id,
               point: addPoint
             },
             success: function (response) {
-              $.get('http://localhost:3000/points/getPointByUserID/' + (JSON.parse(localStorage.getItem('accountSocial')))._id, function (data) {
+              $.get('api/points/getPointByUserID/' + (JSON.parse(localStorage.getItem('accountSocial')))._id, function (data) {
                 $("#pointcur").html(data[0].point + " Điểm");
               });
             }
@@ -263,7 +263,7 @@ export class CustomerLayoutComponent implements OnInit {
           var str = res[indicatedSegment.text.split(" ").length - 1];
           $.ajax({
             type: "post",
-            url: 'http://localhost:3000/discountCodes',
+            url: 'api/discountCodes',
             data: {
               userID: (JSON.parse(localStorage.getItem('accountSocial')))._id,
               discountCode: str.slice(0, -1),
@@ -274,7 +274,7 @@ export class CustomerLayoutComponent implements OnInit {
         }
       //CSS hiển thị button
       statusButton(3);
-      // chạy dòng này oke thì ngon  
+      // chạy dòng này oke thì ngon
     }
 
     //resetWheel
@@ -306,7 +306,7 @@ export class CustomerLayoutComponent implements OnInit {
     return this._router.navigate(['/cartBook']);
   }
   logout() {
-    this.authService.logout();    
+    this.authService.logout();
 		$('#tongtien').html("&nbsp;" + this.formatCurrency("0"));
 		$('.cart_items').html("0");
 		localStorage.setItem("TongTien", "0");

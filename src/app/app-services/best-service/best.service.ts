@@ -11,11 +11,11 @@ export class BestService {
   Book: Book[];
 
   constructor(private _http: HttpClient ,private _host:HostService) { }
-  readonly baseURL = this._host.host()+':3000/best_selling';
-  getBookBestSelling() { 
+  readonly baseURL = this._host.host()+'/best_selling';
+  getBookBestSelling() {
     return this._http.get(this.baseURL+'/Book');
   }
-  getBookOnCategoryBuyMostByUserID(userID) { 
+  getBookOnCategoryBuyMostByUserID(userID) {
     return this._http.get(this.baseURL+'/BookByCategory/'+userID);
   }
   getTop10CategoryAndAuthor(){

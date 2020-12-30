@@ -11,7 +11,7 @@ export class OrderService {
   order: Order[];
 
   constructor(private _http: HttpClient ,private _host:HostService) { }
-  readonly baseURL = this._host.host()+':3000/orders';
+  readonly baseURL = this._host.host()+'/orders';
   getOrderList() {
     return this._http.get(this.baseURL);
   }
@@ -23,7 +23,7 @@ export class OrderService {
   }
   postOrder(order: Order) {
     return this._http.post(this.baseURL, order);
-    
+
   }
   deleteOrder(_id: string) {
     return this._http.delete(this.baseURL + `/${_id}`);

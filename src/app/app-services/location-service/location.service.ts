@@ -12,7 +12,7 @@ export class LocationService {
 
 
   constructor(private _http: HttpClient ,private _host:HostService) { }
-  readonly baseURL = this._host.host()+':3000/locations';
+  readonly baseURL = this._host.host()+'/locations';
   getLocationList() {
     return this._http.get(this.baseURL);
   }
@@ -24,7 +24,7 @@ export class LocationService {
   }
   postLocation(location: Location) {
     return this._http.post(this.baseURL, location);
-    
+
   }
   deleteLocation(_id: string) {
     return this._http.delete(this.baseURL + `/${_id}`);

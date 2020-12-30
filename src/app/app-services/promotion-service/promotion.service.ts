@@ -11,7 +11,7 @@ export class PromotionService {
   promotion: Promotion[];
 
   constructor(private _http: HttpClient ,private _host:HostService) { }
-  readonly baseURL = this._host.host()+':3000/promotions';
+  readonly baseURL = this._host.host()+'/promotions';
   getPromotionList() {
     return this._http.get(this.baseURL);
   }
@@ -23,14 +23,14 @@ export class PromotionService {
   }
   postPromotion(promotion: Promotion) {
     return this._http.post(this.baseURL, promotion);
-    
+
   }
   deletePromotion(_id: string) {
     return this._http.delete(this.baseURL + `/${_id}`);
   }
  getTop3Promotion(){
    return this._http.get(this.baseURL+"/Top3/3PromotionShow");
- 
+
   }
   UpdateIsShow(id){
     console.log(id)
