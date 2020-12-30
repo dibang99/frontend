@@ -200,13 +200,13 @@ export class CustomerLayoutComponent implements OnInit {
       //tăng point
       $.ajax({
         type: "post",
-        url: 'api/points/updatePointByUserID',
+        url: '/points/updatePointByUserID',
         data: {
           userID: (JSON.parse(localStorage.getItem('accountSocial')))._id,
           point: -80
         },
         success: function (response) {
-          $.get('api/points/getPointByUserID/' + (JSON.parse(localStorage.getItem('accountSocial')))._id, function (data) {
+          $.get('/points/getPointByUserID/' + (JSON.parse(localStorage.getItem('accountSocial')))._id, function (data) {
             $("#pointcur").html(data[0].point + " Điểm");
           });
         }
@@ -214,7 +214,7 @@ export class CustomerLayoutComponent implements OnInit {
     }
     //startSpin
     function startSpin() {
-      $.get('api/points/getPointByUserID/' + (JSON.parse(localStorage.getItem('accountSocial')))._id, function (data) {
+      $.get('/points/getPointByUserID/' + (JSON.parse(localStorage.getItem('accountSocial')))._id, function (data) {
         if (data[0].point >= 80) {
           // Ensure that spinning can't be clicked again while already running.
           if (wheelSpinning == false) {
@@ -246,13 +246,13 @@ export class CustomerLayoutComponent implements OnInit {
           addPoint = str[1];
           $.ajax({
             type: "post",
-            url: 'api/points/updatePointByUserID',
+            url: '/points/updatePointByUserID',
             data: {
               userID: (JSON.parse(localStorage.getItem('accountSocial')))._id,
               point: addPoint
             },
             success: function (response) {
-              $.get('api/points/getPointByUserID/' + (JSON.parse(localStorage.getItem('accountSocial')))._id, function (data) {
+              $.get('/points/getPointByUserID/' + (JSON.parse(localStorage.getItem('accountSocial')))._id, function (data) {
                 $("#pointcur").html(data[0].point + " Điểm");
               });
             }
@@ -263,7 +263,7 @@ export class CustomerLayoutComponent implements OnInit {
           var str = res[indicatedSegment.text.split(" ").length - 1];
           $.ajax({
             type: "post",
-            url: 'api/discountCodes',
+            url: '/discountCodes',
             data: {
               userID: (JSON.parse(localStorage.getItem('accountSocial')))._id,
               discountCode: str.slice(0, -1),
